@@ -1,0 +1,93 @@
+commonLabels:
+  app: ${app_name}
+  environment: ${environment}
+  tier: database
+
+architecture: standalone
+auth:
+  database: ${database}
+  username: ${username}
+  password: ${password}
+  postgresPassword: ${password}
+
+# PVC Configuration
+primary:
+  persistence:
+    enabled: true
+    existingClaim: ${persistence_existing_claim}
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    labels:
+      app: ${app_name}
+      env: ${environment}
+      component: database
+  initdbScripts:
+    "01-grant-privileges.sql": |
+      -- Grant all privileges on the database to the user
+      GRANT ALL PRIVILEGES ON DATABASE ${database} TO ${username};
+
+      -- Connect to the database
+      \c ${database}
+
+      -- Grant all privileges on all tables
+      GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ${username};
+
+      -- Grant all privileges on all sequences
+      GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ${username};
+
+      -- Grant all privileges on all functions
+      GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO ${username};
+
+      -- Grant all privileges on the schema
+      GRANT ALL PRIVILEGES ON SCHEMA public TO ${username};
+
+      -- Make sure the user can create new tables
+      -- ALTER USER ${username} CREATEDB;
+
+      -- Grant usage on the schema
+      GRANT USAGE ON SCHEMA public TO ${username}; 
+
+      -- Create role (if not already created externally)
+      CREATE ROLE ${username} WITH LOGIN PASSWORD '${password}';
+
+      -- Default privileges for future objects
+
+      -- For creating future tables and maintaining access
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ${username};
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ${username};
+      ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON FUNCTIONS TO ${username};      
+
+service:
+  type: ClusterIP  # Internal access only
+  ports:
+    postgresql: 5432
+
+# Disable metrics to reduce resource usage
+metrics:
+  enabled: false
+
+# Disable backup to stay within Always Free tier
+backup:
+  enabled: false
+
+# Resource configuration
+resources:
+  requests:
+    cpu: "256m"
+    memory: "512Mi"
+  limits:
+    cpu: "512m"
+    memory: "1024Mi"
+
+# Remove the entire vpa section
+# vpa:
+#   enabled: true
+#   updateMode: "Auto"
+#   resourcePolicy:
+#     minAllowed:
+#       cpu: "100m"
+#       memory: "128Mi"
+#     maxAllowed:
+#       cpu: "1"
+#       memory: "1Gi" 

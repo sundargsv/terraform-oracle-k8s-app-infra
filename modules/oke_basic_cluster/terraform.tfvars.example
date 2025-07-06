@@ -1,0 +1,10 @@
+compartment_ocid  = "ocid1.tenancy.oc1..aaaaaaaaxg6cpnycndid3uzgxmbyg....qdzxda"  # your actual compartment OCID
+tenancy_ocid      = "ocid1.tenancy.oc1..aaaaaaaaxg6cpnycndid3uzgxmby....rzz5a2r5vczkb2z56xqdzxda"
+region            = "ap-hyderabad-1"               # or your preferred OCI region
+ssh_public_key_path = "/Users/..../.ssh/id_rsa.pub"
+kubeconfig_path   = "/Users/..../-oci-si360/kube-config/public/config"
+postgresql_database = "my-app"
+postgresql_username = ""
+postgresql_password = ""
+github_username = ""
+github_token    = "ghp_Q0fG....."

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-db-pvc
+  namespace: postgresql
+  labels:
+    app: myapp
+    env: prod
+    component: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: shared-db-pv
+  storageClassName: ""

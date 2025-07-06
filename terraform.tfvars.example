@@ -1,0 +1,11 @@
+# OCI Provider Configuration
+user_ocid        = "ocid1.user.oc1..aaaaaaaa56yoqbr75styoh..........6h375dtnk7q"
+fingerprint      = "55:fd:36:48:eb:4f:2a:6...........b3:e2:42:16:69"
+private_key_path = "/Users/...../-oci-si360/rsa-ssh-generated-keys/oci_api_key.pem"
+region           = "ap-hyderabad-1"
+
+# Required Variables
+compartment_ocid = "ocid1.tenancy.oc1..aaaaaaaaxg6cpnyc........l4rbprzz5a2r5vczkb2z56xqdzxda"  # Replace with your compartment OCID
+# use_existing_vcn = true
+app_name    = "myapp"
+environment = "preprod"
