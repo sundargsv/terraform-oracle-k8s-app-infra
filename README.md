@@ -1,5 +1,3 @@
-Collecting workspace information
-
 # Oracle Cloud Infrastructure (OCI) Kubernetes Engine Terraform Project
 
 ## Project Overview
